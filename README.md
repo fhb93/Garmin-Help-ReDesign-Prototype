@@ -1,2 +1,2 @@
 # Garmin-Help-ReDesign-Prototype
-Prototype for HCI Subject at PUC-Rio
+Prototype of the Help of Garmin Navigator Interface ReDesign - HCI Course Task at PUC-Rio

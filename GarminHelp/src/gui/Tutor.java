@@ -17,54 +17,141 @@ import javax.swing.JPanel;
 
 public class Tutor {
 
-	private JFrame tutorFrame;
-	private Dimension d;
-	private Point p;
-	private JLabel label;
-	private String tutorMenu = "/tutorHelpMenu.png";
-
-
-	public Tutor(JFrame myFrame, Dimension d, Point p) throws IOException {
+	private static JFrame tutorFrame;
+	private static Dimension d;
+	private static Point p;
+	private static JLabel label;
+	private static String saveFav = "/tutorSaveFavourite.png";
+	private static String tutorMenu = "/tutorHelpMenu.png";
+	private static String saveHome = "/tutorSaveNavHome.png";
+	private static String pointsInterest = "/tutorPointsOfInt.png";
+	private static String address = "/tutorFindAddress.png";
+	private static String stop = "/tutorAddStop.png";
+	
+	public static void tutorMenu(JFrame myFrame, Dimension d, Point p) throws IOException {
 		tutorFrame = myFrame;
-		this.d = d;
-		this.p = p;
+		Tutor.d = d;
+		Tutor.p = p;
 		URL menu = URL.class.getResource(tutorMenu);
 		label = new JLabel();
 		Image img = ImageIO.read(menu);
 		label.setIcon(new ImageIcon(img));
 		label.setSize(d);
 		label.setLocation(p);
-	}
-	public void tutorMenu() {
+		boolean isTutor = true;
 		JPanel menuPanel = new JPanel();
 		menuPanel.setSize(d);
 		menuPanel.setLocation(p);
-		//		menuPanel.setLayout(null);
 
 		menuPanel.add(label);
 		menuPanel.setVisible(true);
 		tutorFrame.add(menuPanel);
 		tutorFrame.repaint();
-		handleBack(menuPanel, tutorFrame);
+		handleClicks(tutorFrame, menuPanel, isTutor);
 	}
 
-	private void handleBack(JPanel tutorPanel, JFrame myFrame) {
-		tutorPanel.addMouseListener(new MouseAdapter() {
+	public static void handleClicks(JFrame frame, JPanel myPanel, boolean fromTutor) {
+		myPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				Rectangle back = new Rectangle(0, 326, 169, 60);
-				if(back.contains(event.getX(), event.getY(), 1, 1)) {
-					myFrame.remove(tutorPanel);
+				super.mouseClicked(event);
+
+				Rectangle boundsAddress = new Rectangle(42, 3,132,142);
+				Rectangle boundsBackTutor = new Rectangle(0, 321, 169, 65);
+				Rectangle boundsPointsInterest = new Rectangle(275, 87, 137, 187);
+				Rectangle boundsFav = new Rectangle(493, 3, 124, 167);
+				Rectangle boundsHome = new Rectangle(10, 171, 195, 152);
+				Rectangle boundsStop = new Rectangle(498, 172, 120, 147);
+
+				if(boundsAddress.contains(event.getX(), event.getY())){
 					try {
-						myFrame.remove(tutorPanel);
-						myFrame.repaint();
-						MainMenu.whereTo(myFrame, tutorPanel);
+						handleView("address");
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
+				}
+				else if(boundsBackTutor.contains(event.getX(), event.getY())) {
+					try {
+						frame.remove(myPanel);
+						frame.repaint();
+						if(fromTutor) {
+							MainMenu.whereTo(frame, myPanel);
+						}else {
+							Tutor.tutorMenu(frame, d, p);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 
+				else if(boundsPointsInterest.contains(event.getX(), event.getY())) {
+					try {
+						handleView("pointsInterest");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else if(boundsFav.contains(event.getX(), event.getY())) {
+					try {
+						handleView("saveFav");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else if(boundsHome.contains(event.getX(), event.getY())) {
+					try {
+						handleView("saveHome");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				else if (boundsStop.contains(event.getX(), event.getY())) {
+					try {
+						handleView("stop");
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
+			public void handleView(String tip) throws IOException {
+				frame.remove(myPanel);
+				frame.repaint();
+				if(tip.equals("saveHome")) {
+					Tutor.showHelp(frame, new Dimension(671, 389),  new Point(1,10), saveHome);
+				}
+				else if(tip.equals("pointsInterest")) {
+					Tutor.showHelp(frame, new Dimension(671, 389),  new Point(1,10), pointsInterest);
+				}
+				else if(tip.equals("saveFav")) {
+					Tutor.showHelp(frame, new Dimension(671, 389),  new Point(1,10), saveFav);
+				}
+				else if(tip.equals("address")) {
+					Tutor.showHelp(frame, new Dimension(671, 389),  new Point(1,10), address);
+				}
+				else if(tip.equals("stop")) {
+					Tutor.showHelp(frame, new Dimension(671, 389),  new Point(1,10), stop);
+				}
+			}
+
 		});
+	}
+
+
+	public static void showHelp(JFrame frame, Dimension d, Point p, String url) throws IOException {
+		URL urlString = URL.class.getResource(url);
+		JLabel label = new JLabel();
+		Image img = ImageIO.read(urlString);
+		label.setIcon(new ImageIcon(img));
+		label.setSize(d);
+		label.setLocation(p);
+		JFrame myFrame = frame;
+		JPanel myPanel = new JPanel();
+		myPanel.setSize(d);
+		myPanel.setLayout(null);
+		myPanel.add(label);
+		myFrame.add(myPanel);
+		myFrame.repaint();
+		handleClicks(myFrame, myPanel, false);
+
 	}
 }

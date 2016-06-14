@@ -132,7 +132,7 @@ public class MainMenu {
 				super.mouseClicked(event);
 				myFrame.remove(tradPanel);
 				try {
-					run("Garmin Help ReDesign", myFrame, new Dimension(680, 400));
+					MainMenu.run("Garmin Help ReDesign", myFrame, new Dimension(680, 400));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -154,6 +154,7 @@ public class MainMenu {
 		wherePanel.setLocation(1,-10);
 		wherePanel.setVisible(true);
 		myFrame.remove(myPanel);
+		myFrame.repaint();
 		myFrame.add(wherePanel);
 		myFrame.repaint();
 		handleTutorial(wherePanel, myFrame);
@@ -173,7 +174,7 @@ public class MainMenu {
 					myFrame.remove(wherePanel);
 					myFrame.repaint();
 					try {
-						run("Garmin Help ReDesign", myFrame, new Dimension(700, 410)); //680, 400
+						MainMenu.run("Garmin Help ReDesign", myFrame, new Dimension(700, 410)); //680, 400
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
@@ -182,14 +183,12 @@ public class MainMenu {
 
 			public void handleTutor() {
 				try {
-					tutor = new Tutor(myFrame, new Dimension(674, 410), new Point(1,-5));
+					myFrame.remove(wherePanel);
+					myFrame.repaint();
+					Tutor.tutorMenu(myFrame, new Dimension(674, 410), new Point(1,-5));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				myFrame.remove(wherePanel);
-				myFrame.repaint();
-				tutor.tutorMenu();
-				System.out.println("CLASS TUTOR!");
 			}
 		});
 	}

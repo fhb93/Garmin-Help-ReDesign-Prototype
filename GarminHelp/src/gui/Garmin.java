@@ -49,7 +49,7 @@ public class Garmin {
 		frame.setResizable(false);
 		frame.setLayout(null);
 		frame.setVisible(true);
-		Thread.sleep(2000);
+		Thread.sleep(2000); //Mudar para 5000 na v final
 		frame.remove(label);
 		frame.remove(panel);
 		frame.repaint();

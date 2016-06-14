@@ -21,7 +21,6 @@ public class MainMenu {
 	private static String menu = "/MainMenu2.png";
 	private static String pass = "/pass.jpg";
 	private static String menuWhere = "/whereToMenu.png";
-	private static Tutor tutor;
 	private static JPanel wherePanel;
 	private static JPanel menuBackground;
 

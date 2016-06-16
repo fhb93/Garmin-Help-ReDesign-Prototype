@@ -64,7 +64,6 @@ public class MainMenu {
 			public void mouseClicked(MouseEvent event) {
 				super.mouseClicked(event);
 				Rectangle boundsWhere = new Rectangle(64, 70, 221, 204);
-				Rectangle boundsShowMap = new Rectangle(406, 72, 196, 190);
 				Rectangle boundsHelp = new Rectangle(295, 279, 85, 94);
 				if(boundsWhere.contains(event.getX(), event.getY(), 1, 1))	{
 					try {
@@ -74,8 +73,6 @@ public class MainMenu {
 						e.printStackTrace();
 					}
 				}
-				if(boundsShowMap.contains(event.getX(), event.getY(), 1, 1))
-					this.handleShowMap();
 				if(boundsHelp.contains(event.getX(), event.getY(), 1, 1))
 					try {
 						this.handleHelp();
@@ -85,10 +82,6 @@ public class MainMenu {
 			}
 			public void handleWhereTo() throws IOException {
 				whereTo(myFrame, myPanel);
-			}
-
-			public void handleShowMap() {
-				showMap(ret, myPanel);
 			}
 
 			public void handleHelp() throws IOException {
@@ -156,20 +149,24 @@ public class MainMenu {
 		myFrame.repaint();
 		myFrame.add(wherePanel);
 		myFrame.repaint();
-		handleTutorial(wherePanel, myFrame);
+		handleTutorialOrSupervision(wherePanel, myFrame);
 	}
 
-	private static void handleTutorial(JPanel wherePanel, JFrame myFrame) {
+	private static void handleTutorialOrSupervision(JPanel wherePanel, JFrame myFrame) {
 		wherePanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
 				super.mouseClicked(event);
 				Rectangle boundsTutor = new Rectangle(50, 180, 109, 128);
+				Rectangle boundsSupervisor = new Rectangle(481, 175, 145, 128);
 				Rectangle back = new Rectangle(0, 326, 169, 60);
-				if(boundsTutor.contains(event.getX(), event.getY(), 1, 1))	{
+				if(boundsTutor.contains(event.getX(), event.getY()))	{
 					this.handleTutor();
 				}
-				if(back.contains(event.getX(), event.getY(), 1, 1)) {
+				else if(boundsSupervisor.contains(event.getX(), event.getY())) {
+					this.handleSupervisor();
+				}
+				else if(back.contains(event.getX(), event.getY())) {
 					myFrame.remove(wherePanel);
 					myFrame.repaint();
 					try {
@@ -189,13 +186,19 @@ public class MainMenu {
 					e.printStackTrace();
 				}
 			}
+			public void handleSupervisor() {
+				try {
+					myFrame.remove(wherePanel);
+					myFrame.repaint();
+					Supervisor.supervMenu(myFrame, new Dimension(674, 410), new Point(1,-5));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		});
 	}
 
 
-	public static void showMap(JButton ret, JPanel myPanel) {
-
-	}
 
 	public static void traditional(Image img, JButton ret,JFrame myFrame, JPanel myPanel) throws IOException {
 		JLabel labelPass = new JLabel();

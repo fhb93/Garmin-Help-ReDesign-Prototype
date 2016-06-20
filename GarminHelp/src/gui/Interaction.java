@@ -31,7 +31,7 @@ public class Interaction {
 	private static String SpointsInterest = "/supervPointsOfInt.png";
 	private static String Saddress = "/supervFindAddress.png";
 	private static String Sstop = "/supervAddStop.png";
-	public static JLabel label = new JLabel("Everything is Correct! New Supervision?");
+	public static JLabel label = new JLabel("Everything is Correct! New Option?");
 	private static Dimension d;
 	private static Point p;
 	public static void user(JFrame frame, Dimension dimension, Point point, int fromWhere) {
@@ -217,8 +217,11 @@ public class Interaction {
 	}
 	private static void correct(JFrame frame, JPanel panel) {
 		JButton theReturn = new JButton("Return");
-		theReturn.setLocation(300, 310);
-		theReturn.setSize(70, 30);
+		JButton actionAgain = new JButton("Back to Try");
+		theReturn.setLocation(250, 310);
+		theReturn.setSize(90, 30);
+		actionAgain.setLocation(350, 310);
+		actionAgain.setSize(120, 30);
 		frame.remove(panel);
 		label.setSize(500, 100);
 		label.setLocation(100, 32);	
@@ -229,13 +232,13 @@ public class Interaction {
 		newPanel.setLocation(0,-1);
 		newPanel.add(label);
 		newPanel.add(theReturn);
+		newPanel.add(actionAgain);
 		frame.add(newPanel);
 		frame.repaint();
-		handleReturn(theReturn, frame, newPanel);
+		handleReturn(theReturn, actionAgain, frame, newPanel);
 	}
 	
-	public static void handleReturn(JButton ret, JFrame myFrame, JPanel panel) {
-
+	public static void handleReturn(JButton ret, JButton act, JFrame myFrame, JPanel panel) {
 		ret.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
@@ -247,6 +250,15 @@ public class Interaction {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+			}
+		});
+		act.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent event) {
+				super.mouseClicked(event);
+				myFrame.remove(panel);
+				myFrame.repaint();
+				Interaction.user(myFrame, new Dimension(671, 389),  new Point(1,10), 2); //2 veio supervisor
 			}
 		});
 	}
